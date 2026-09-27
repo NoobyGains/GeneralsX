@@ -1027,7 +1027,6 @@ void W3DDisplay::init()
 
 		fprintf(stderr, "[DEBUG-WIN] W3DDisplay::init() - TheGlobalData->m_windowed=%d\n", (int)TheGlobalData->m_windowed);
 		setWindowed( TheGlobalData->m_windowed );
-		// GeneralsX @feature NoobyGains 27/09/2026 Must be set before Set_Render_Device positions the window (-noborder).
 		DX8Wrapper::Set_Borderless( TheGlobalData->m_windowed && TheGlobalData->m_borderless );
 
 		// create a 2D renderer helper

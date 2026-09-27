@@ -601,10 +601,7 @@ public:
 
 	static void Set_Draw_Polygon_Low_Bound_Limit(unsigned n) { DrawPolygonLowBoundLimit=n; }
 
-	// GeneralsX @feature NoobyGains 27/09/2026 Borderless window placement (-noborder). Set before the render device is
-	// created. Only has an effect while windowed: Resize_And_Position_Window then covers the monitor, not the work area.
 	static void Set_Borderless(bool borderless) { IsBorderless = borderless; }
-	static bool Is_Borderless() { return IsBorderless; }
 
 protected:
 

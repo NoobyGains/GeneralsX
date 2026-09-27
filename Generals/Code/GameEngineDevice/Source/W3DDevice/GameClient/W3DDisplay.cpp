@@ -956,7 +956,6 @@ void W3DDisplay::init()
 		WW3D::Set_Screen_UV_Bias( TRUE );  ///< this makes text look good :)
 
 		setWindowed( TheGlobalData->m_windowed );
-		// GeneralsX @feature NoobyGains 27/09/2026 Must be set before Set_Render_Device positions the window (-noborder).
 		DX8Wrapper::Set_Borderless( TheGlobalData->m_windowed && TheGlobalData->m_borderless );
 
 		// create a 2D renderer helper

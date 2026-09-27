@@ -381,7 +381,6 @@ Int parseNoAudio(char *args[], int)
 Int parseNoWin(char *args[], int)
 {
 	TheWritableGlobalData->m_windowed = false;
-	// GeneralsX @feature NoobyGains 27/09/2026 -fullscreen also cancels an earlier -noborder.
 	TheWritableGlobalData->m_borderless = false;
 
 	return 1;
@@ -389,9 +388,7 @@ Int parseNoWin(char *args[], int)
 
 //=============================================================================
 //=============================================================================
-// GeneralsX @feature NoobyGains 27/09/2026 Run as a borderless window presented in D3D windowed mode.
-// At desktop resolution this is borderless fullscreen: it covers the monitor, never switches the
-// display mode and does not minimise when it loses focus.
+// GeneralsX @feature NoobyGains 27/09/2026 Add -noborder to run as a borderless window. At desktop resolution this is borderless fullscreen.
 Int parseNoBorder(char *args[], int)
 {
 	TheWritableGlobalData->m_windowed = true;
@@ -1195,7 +1192,6 @@ static CommandLineParam paramsForStartup[] =
 {
 	{ "-win", parseWin },
 	{ "-fullscreen", parseNoWin },
-	// GeneralsX @feature NoobyGains 27/09/2026 Borderless window (borderless fullscreen at desktop resolution).
 	{ "-noborder", parseNoBorder },
 
 	// TheSuperHackers @feature helmutbuhler 11/04/2025

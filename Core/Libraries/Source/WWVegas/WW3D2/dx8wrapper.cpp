@@ -1253,30 +1253,16 @@ void DX8Wrapper::Get_Format_Name(unsigned int format, StringClass *tex_format)
 void DX8Wrapper::Resize_And_Position_Window()
 {
 #ifdef _WIN32
-	// GeneralsX @feature NoobyGains 27/09/2026 Place a borderless window (-noborder) with its client area at the
-	// top-left corner of the monitor it is on, sized to the game resolution. Unlike the framed windowed case
-	// below, the work area (taskbar) is ignored so that at desktop resolution the window covers the whole
-	// monitor. This always repositions, even when the size is already right, because the window is created
-	// centred on the screen. It keeps its normal (non-topmost) z-order.
+	// GeneralsX @feature NoobyGains 27/09/2026 Place a borderless window over the whole monitor, ignoring the taskbar work area.
 	if (IsWindowed && IsBorderless)
 	{
-		RECT rect = { 0, 0, ResolutionWidth, ResolutionHeight };
-		DWORD dwstyle = ::GetWindowLong (_Hwnd, GWL_STYLE);
-		AdjustWindowRect (&rect, dwstyle, FALSE);
-		int width = rect.right-rect.left;
-		int height = rect.bottom-rect.top;
-
 		MONITORINFO mi = {sizeof(MONITORINFO)};
 		if (!GetMonitorInfo(MonitorFromWindow(_Hwnd, MONITOR_DEFAULTTOPRIMARY), &mi))
 			SetRect(&mi.rcMonitor, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 
-		// rect.left and rect.top are the (non-positive) frame offsets of the client area; zero without a frame.
-		int left = mi.rcMonitor.left + rect.left;
-		int top = mi.rcMonitor.top + rect.top;
+		::SetWindowPos (_Hwnd, nullptr, mi.rcMonitor.left, mi.rcMonitor.top, ResolutionWidth, ResolutionHeight, SWP_NOZORDER);
 
-		::SetWindowPos (_Hwnd, nullptr, left, top, width, height, SWP_NOZORDER);
-
-		DEBUG_LOG(("Borderless window positioned to x:%d y:%d, resized to w:%d h:%d", left, top, width, height));
+		DEBUG_LOG(("Borderless window positioned to x:%d y:%d, resized to w:%d h:%d", mi.rcMonitor.left, mi.rcMonitor.top, ResolutionWidth, ResolutionHeight));
 		return;
 	}
 #endif
