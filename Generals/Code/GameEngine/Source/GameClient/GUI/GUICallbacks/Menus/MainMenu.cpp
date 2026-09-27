@@ -423,10 +423,18 @@ static void initLabelVersion()
 			instData.m_style = GWS_STATIC_TEXT | GWS_MOUSE_TRACK;
 			instData.m_textLabelString = "GeneralsXCreditLabel";
 
-			const Int width = TheDisplay->getWidth() - 16;
-			const Int height = 28;
-			const Int x = 8;
-			const Int y = TheDisplay->getHeight() - height - 8;
+			// GeneralsX @bugfix NoobyGains 27/09/2026 Size the watermark from its resolution-scaled font so the text is not clipped at high resolutions.
+			int baseSize = 12;
+			float scaleY = (float)TheDisplay->getHeight() / 600.0f;
+			int scaledSize = (scaleY > 1.0f) ? (int)(baseSize * scaleY * 0.70f) : baseSize;
+			if (scaledSize < baseSize) scaledSize = baseSize;
+			GameFont *font = TheWindowManager->winFindFont("Arial", scaledSize, FALSE);
+
+			const Int margin = 8;
+			const Int width = TheDisplay->getWidth() - 2 * margin;
+			const Int height = (font && font->height > 0) ? font->height + margin : 28;
+			const Int x = margin;
+			const Int y = TheDisplay->getHeight() - height - margin;
 
 			// GeneralsX @feature BenderAI 31/03/2026 Fallback credit label when MainMenu.wnd lacks LabelVersion.
 			fallbackCreditLabel = TheWindowManager->gogoGadgetStaticText(parentMainMenu,
@@ -441,11 +449,7 @@ static void initLabelVersion()
 			if (fallbackCreditLabel)
 			{
 				// GeneralsX @tweak BenderAI 31/03/2026 Keep fallback watermark subtle and aligned to bottom-left target placement.
-				int baseSize = 12;
-				float scaleY = TheDisplay ? ((float)TheDisplay->getHeight() / 600.0f) : 1.0f;
-				int scaledSize = (scaleY > 1.0f) ? (int)(baseSize * scaleY * 0.70f) : baseSize;
-				if (scaledSize < baseSize) scaledSize = baseSize;
-				fallbackCreditLabel->winSetFont(TheWindowManager->winFindFont("Arial", scaledSize, FALSE));
+				fallbackCreditLabel->winSetFont(font);
 				fallbackCreditLabel->winSetEnabledTextColors(GameMakeColor(255, 220, 60, 255), GameMakeColor(0, 0, 0, 0));
 				GadgetStaticTextSetText(fallbackCreditLabel, creditText);
 			}
