@@ -129,6 +129,8 @@ public:
 	Bool m_checkForUpdates;
 
 	Bool m_windowed;
+	// GeneralsX @feature NoobyGains 27/09/2026 Borderless window with D3D windowed presentation (-noborder). Only meaningful with m_windowed.
+	Bool m_borderless;
 	Int m_xResolution;
 	Int m_yResolution;
 	Int m_maxShellScreens;  ///< this many shells layouts can be loaded at once

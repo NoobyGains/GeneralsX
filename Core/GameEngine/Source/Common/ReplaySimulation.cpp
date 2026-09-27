@@ -207,9 +207,11 @@ int ReplaySimulation::simulateReplaysInWorkerProcesses(const std::vector<AsciiSt
 			UnicodeString filenameWide;
 			filenameWide.translate(filenames[filenamePositionStarted]);
 			UnicodeString command;
-			command.format(L"\"%s\"%s%s -replay \"%s\"",
+			// GeneralsX @feature NoobyGains 27/09/2026 Also pass -noborder on to the worker processes.
+			command.format(L"\"%s\"%s%s%s -replay \"%s\"",
 				exePath,
 				TheGlobalData->m_windowed ? L" -win" : L"",
+				TheGlobalData->m_borderless ? L" -noborder" : L"",
 				TheGlobalData->m_headless ? L" -headless" : L"",
 				filenameWide.str());
 

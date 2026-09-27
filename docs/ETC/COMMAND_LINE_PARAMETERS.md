@@ -8,6 +8,7 @@ Common command line parameters for `GeneralsX` (Generals) and `GeneralsXZH` (Zer
 |-----------|-------------|---------|
 | `-win` | Forces windowed mode | `./GeneralsXZH -win` |
 | `-fullscreen` | Forces fullscreen mode | `./GeneralsXZH -fullscreen` |
+| `-noborder` | Borderless window at the monitor's top-left, presented windowed (Windows). At desktop resolution this is borderless fullscreen: no mode switch, no minimise on Alt-Tab, capturable by window capture | `GeneralsXZH.exe -noborder -xres 1920 -yres 1080` |
 | `-xres <width>` | Sets horizontal resolution | `./GeneralsXZH -xres 1920` |
 | `-yres <height>` | Sets vertical resolution | `./GeneralsXZH -yres 1080` |
 

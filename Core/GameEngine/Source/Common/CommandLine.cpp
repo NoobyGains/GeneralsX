@@ -381,6 +381,21 @@ Int parseNoAudio(char *args[], int)
 Int parseNoWin(char *args[], int)
 {
 	TheWritableGlobalData->m_windowed = false;
+	// GeneralsX @feature NoobyGains 27/09/2026 -fullscreen also cancels an earlier -noborder.
+	TheWritableGlobalData->m_borderless = false;
+
+	return 1;
+}
+
+//=============================================================================
+//=============================================================================
+// GeneralsX @feature NoobyGains 27/09/2026 Run as a borderless window presented in D3D windowed mode.
+// At desktop resolution this is borderless fullscreen: it covers the monitor, never switches the
+// display mode and does not minimise when it loses focus.
+Int parseNoBorder(char *args[], int)
+{
+	TheWritableGlobalData->m_windowed = true;
+	TheWritableGlobalData->m_borderless = true;
 
 	return 1;
 }
@@ -1180,6 +1195,8 @@ static CommandLineParam paramsForStartup[] =
 {
 	{ "-win", parseWin },
 	{ "-fullscreen", parseNoWin },
+	// GeneralsX @feature NoobyGains 27/09/2026 Borderless window (borderless fullscreen at desktop resolution).
+	{ "-noborder", parseNoBorder },
 
 	// TheSuperHackers @feature helmutbuhler 11/04/2025
 	// This runs the game without a window, graphics, input and audio. You can combine this with -replay

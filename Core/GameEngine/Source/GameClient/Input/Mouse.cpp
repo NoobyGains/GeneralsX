@@ -1075,7 +1075,8 @@ Bool Mouse::canCapture() const
 	DEBUG_ASSERTCRASH(TheDisplay != nullptr, ("The Display is null"));
 	const Bool inInteractiveGame = TheGameLogic && TheGameLogic->isInInteractiveGame();
 
-	if (TheDisplay->getWindowed())
+	// GeneralsX @feature NoobyGains 27/09/2026 A borderless window (-noborder) uses the fullscreen capture settings.
+	if (TheDisplay->getWindowed() && !TheGlobalData->m_borderless)
 	{
 		if (inInteractiveGame)
 		{

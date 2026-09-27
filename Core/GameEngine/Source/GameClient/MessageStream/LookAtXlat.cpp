@@ -118,7 +118,8 @@ Bool LookAtTranslator::canScrollAtScreenEdge() const
 		return false;
 
 #ifdef _WIN32
-	if (TheDisplay->getWindowed())
+	// GeneralsX @feature NoobyGains 27/09/2026 A borderless window (-noborder) uses the fullscreen edge scroll setting.
+	if (TheDisplay->getWindowed() && !TheGlobalData->m_borderless)
 	{
 		if ((m_screenEdgeScrollMode & ScreenEdgeScrollMode_EnabledInWindowedApp) == 0)
 			return false;

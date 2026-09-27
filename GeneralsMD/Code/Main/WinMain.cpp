@@ -361,7 +361,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 					case SC_SIZE:
 					case SC_MAXIMIZE:
 					case SC_MONITORPOWER:
-						if( !TheGlobalData->m_windowed )
+						// GeneralsX @feature NoobyGains 27/09/2026 A borderless window (-noborder) is treated like fullscreen here.
+						if( !TheGlobalData->m_windowed || TheGlobalData->m_borderless )
 							return 1;
 						break;
 				}
@@ -710,8 +711,13 @@ static Bool initializeAppWindows( HINSTANCE hInstance, Int nCmdShow, Bool runWin
 
    // Create our main window
 	windowStyle =  WS_POPUP|WS_VISIBLE;
+	// GeneralsX @feature NoobyGains 27/09/2026 A borderless window (-noborder) is a plain popup: no caption, frame,
+	// system menu or minimise box. It is still windowed, so it is never made topmost (HWND_TOP below).
 	if (runWindowed)
-		windowStyle |= WS_MINIMIZEBOX | WS_SYSMENU | WS_DLGFRAME | WS_CAPTION;
+	{
+		if (!TheGlobalData->m_borderless)
+			windowStyle |= WS_MINIMIZEBOX | WS_SYSMENU | WS_DLGFRAME | WS_CAPTION;
+	}
 	else
 		windowStyle |= WS_EX_TOPMOST | WS_SYSMENU;
 
@@ -756,7 +762,8 @@ static Bool initializeAppWindows( HINSTANCE hInstance, Int nCmdShow, Bool runWin
 	SetFocus(hWnd);
 
 	SetForegroundWindow(hWnd);
-	ShowWindow( hWnd, nCmdShow );
+	// GeneralsX @feature NoobyGains 27/09/2026 A borderless window (-noborder) ignores a maximized/minimized shortcut state.
+	ShowWindow( hWnd, (runWindowed && TheGlobalData->m_borderless) ? SW_SHOW : nCmdShow );
 	UpdateWindow( hWnd );
 
 	// save our application window handle for future use
